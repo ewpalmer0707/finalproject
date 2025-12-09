@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Clean Blog - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">Resume</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">From Scratch</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">AI App</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('assets/img/gaming.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>AI Game</h1>
+                            <span class="subheading"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        
+        <!-- ==== Catch the Square Game (self-contained div) ==== -->
+<div id="catch-game" style="
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #333;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0,0,0,.12);
+">
+  <h2 style="margin-top:0; text-align:center;">Catch the Square!</h2>
+
+  <p style="text-align:center; margin:8px 0;">
+    Score:
+    <span id="cg-score" style="font-weight:bold;">0</span>
+    &nbsp;|&nbsp;
+    Time:
+    <span id="cg-time" style="font-weight:bold;">20</span>s
+  </p>
+
+  <div id="cg-area" style="
+    position: relative;
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    background: #eee;
+    overflow: hidden;
+    margin-bottom: 10px;
+  ">
+    <div id="cg-target" style="
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      background: #ff5252;
+      cursor: pointer;
+      display: none;
+    "></div>
+  </div>
+
+  <button id="cg-start" style="
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #333;
+    color: #fff;
+  ">
+    Start Game
+  </button>
+
+  <p id="cg-message" style="text-align:center; margin-top:8px; min-height:18px;"></p>
+</div>
+
+<script>
+(function () {
+  const area   = document.getElementById('cg-area');
+  const target = document.getElementById('cg-target');
+  const scoreEl = document.getElementById('cg-score');
+  const timeEl  = document.getElementById('cg-time');
+  const startBtn = document.getElementById('cg-start');
+  const msgEl = document.getElementById('cg-message');
+
+  let score = 0;
+  let timeLeft = 20;
+  let timerId = null;
+  let gameActive = false;
+
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function randomColor() {
+    return 'hsl(' + randomInt(0, 360) + ', 80%, 55%)';
+  }
+
+  function moveTarget() {
+    const areaRect = area.getBoundingClientRect();
+    const size = randomInt(30, 60); // random square size
+
+    target.style.width = size + 'px';
+    target.style.height = size + 'px';
+
+    const maxX = area.clientWidth  - size;
+    const maxY = area.clientHeight - size;
+
+    const x = randomInt(0, maxX);
+    const y = randomInt(0, maxY);
+
+    target.style.left = x + 'px';
+    target.style.top  = y + 'px';
+    target.style.background = randomColor();
+  }
+
+  function startGame() {
+    if (gameActive) return;
+
+    gameActive = true;
+    score = 0;
+    timeLeft = 20;
+    scoreEl.textContent = score;
+    timeEl.textContent = timeLeft;
+    msgEl.textContent = 'Catch as many squares as you can!';
+
+    target.style.display = 'block';
+    moveTarget();
+
+    if (timerId) clearInterval(timerId);
+    timerId = setInterval(() => {
+      timeLeft--;
+      timeEl.textContent = timeLeft;
+
+      // Move the target every second even if you miss
+      moveTarget();
+
+      if (timeLeft <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function endGame() {
+    clearInterval(timerId);
+    timerId = null;
+    gameActive = false;
+    target.style.display = 'none';
+    msgEl.textContent = 'Time\'s up! You scored ' + score + ' points.';
+  }
+
+  target.addEventListener('click', function (e) {
+    if (!gameActive) return;
+    score++;
+    scoreEl.textContent = score;
+    moveTarget();
+    e.stopPropagation(); // so clicking target doesn't count as a miss
+  });
+
+  // Optional: clicking empty area "misses" and briefly shows a message
+  area.addEventListener('click', function (e) {
+    if (!gameActive) return;
+    if (e.target !== target) {
+      msgEl.textContent = 'Miss! Aim for the square 😅';
+      setTimeout(() => {
+        if (gameActive) msgEl.textContent = 'Keep going!';
+      }, 600);
+    }
+  });
+
+  startBtn.addEventListener('click', startGame);
+})();
+</script>
+
+
+
+
+
+
+
+
+        <!-- Footer-->
+        
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>

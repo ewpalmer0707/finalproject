@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rugby 101 – Toughest Game on Grass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #f9f9f9;
+      line-height: 1.6;
+
+      /* Rugby background image */
+      background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Rugby_union_scrummage_close_up.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Dark overlay to make text readable */
+    .page-overlay {
+      min-height: 100vh;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.85)
+      );
+      padding-bottom: 40px;
+    }
+
+    header {
+      padding: 24px 15px 30px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0.65)
+      );
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #d9e4dd;
+    }
+
+    nav {
+      margin-top: 12px;
+    }
+
+    nav a {
+      color: #9be7ff;
+      text-decoration: none;
+      margin: 0 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover {
+      border-bottom-color: #9be7ff;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 20px auto 0;
+      padding: 0 15px;
+    }
+
+    /* Glassy cards for all sections */
+    .card {
+      background: rgba(5, 10, 20, 0.78);
+      border-radius: 16px;
+      padding: 18px 18px 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .hero img {
+      width: 100%;
+      display: block;
+      max-height: 280px;
+      object-fit: cover;
+    }
+
+    .hero-caption {
+      padding: 10px 15px 15px;
+      font-size: 0.9rem;
+      color: #d0d8dd;
+    }
+
+    h2 {
+      border-left: 4px solid #2ecc71;
+      padding-left: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      margin-top: 16px;
+      font-size: 1.15rem;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+
+    .rule-list li {
+      margin-bottom: 4px;
+    }
+
+    .highlight-box {
+      background: rgba(10, 20, 35, 0.85);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      margin-top: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      background: rgba(10, 20, 35, 0.9);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: rgba(15, 30, 50, 0.95);
+      text-align: left;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 1px 7px;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      background: rgba(21, 53, 31, 0.9);
+      color: #c6ffd3;
+      margin-left: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 10px 25px;
+      font-size: 0.75rem;
+      color: #d0d0d0;
+    }
+
+    a.inline-link {
+      color: #9be7ff;
+      text-decoration: none;
+    }
+
+    a.inline-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Make cards breathe on small screens */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .card {
+        padding: 14px 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-overlay">
+
+  <header>
+    <h1>Rugby 101 – From Scrum to Try</h1>
+    <p>
+      Rugby is a full-contact, high-intensity sport where two teams battle to carry, pass,
+      and kick an oval ball over the try line. It’s a mix of strategy, bravery, and controlled chaos.
+    </p>
+    <nav style="
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+">
+    <ul class="navbar-nav" style="
+        display: flex;
+        gap: 20px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    ">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html" style="color:#9be7ff; text-decoration:none; font-weight:600;">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="about.html" style="color:#9be7ff; text-decoration:none; font-weight:600;">Resume</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="post.html" style="color:#9be7ff; text-decoration:none; font-weight:600;">From Scratch</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="contact.html" style="color:#9be7ff; text-decoration:none; font-weight:600;">AI App</a>
+        </li>
+    </ul>
+</nav>
+
+  </header>
+
+  <div class="container">
+
+    <!-- Hero image -->
+ <div class="card hero" id="intro"
+     style="
+       background-image: url('assets/img/rugby.jpg');
+       background-size: cover;
+       background-position: center;
+       background-repeat: no-repeat;
+       height: 500px;          /* adjust as needed */
+       border-radius: 16px;    /* keeps your card style */
+     ">
+</div>
+
+
+    <!-- What is Rugby section -->
+    <section class="card">
+      <h2>What Is Rugby?</h2>
+      <p>
+        Rugby started in England in the 19th century and has grown into a global sport played by
+        millions. Two teams of 15 players compete on a rectangular grass field with
+        <strong>H-shaped goalposts</strong> at each end. The main goal is to score more points
+        than the opponent before the match ends.
+      </p>
+      <p>
+        Unlike American football, there are no forward passes. The ball can only be passed
+        sideways or backward, so teams have to run in support and work together to move the ball
+        up the field.
+      </p>
+    </section>
+
+    <!-- Basic rules section -->
+    <section class="card" id="how-to-play">
+      <h2>How Do You Play?</h2>
+
+      <h3>Scoring Points</h3>
+      <ul class="rule-list">
+        <li><strong>Try (5 pts)</strong> – Touch the ball down in the opponent’s in-goal area.</li>
+        <li><strong>Conversion (2 pts)</strong> – Kick the ball through the posts after a try.</li>
+        <li><strong>Penalty Goal (3 pts)</strong> – Kick at goal after the other team commits a penalty.</li>
+        <li><strong>Drop Goal (3 pts)</strong> – Drop-kick the ball through the posts during open play.</li>
+      </ul>
+
+      <h3>Key Rules in Simple Terms</h3>
+      <ul class="rule-list">
+        <li>No forward passes – only sideways or backward.</li>
+        <li>You must tackle below the shoulders and wrap with your arms (no spear tackles).</li>
+        <li>When you’re tackled, you have to release the ball so play can continue.</li>
+        <li>Teams contest possession with rucks, mauls, lineouts, and scrums.</li>
+      </ul>
+    </section>
+
+    <!-- Positions table -->
+    <section class="card" id="positions">
+      <h2>Positions: Forwards vs Backs</h2>
+      <p>
+        Each of the 15 players has a specific role. <strong>Forwards</strong> are usually bigger and
+        focus on winning the ball. <strong>Backs</strong> are typically faster and focus on creating
+        and finishing scoring opportunities.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>Position</th>
+            <th>Main Job</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Forwards <span class="tag">Power</span></td>
+            <td>Props &amp; Hooker</td>
+            <td>Anchor the scrum, protect the ball, and provide physical strength.</td>
+          </tr>
+          <tr>
+            <td>Forwards</td>
+            <td>Locks</td>
+            <td>Win lineout balls and add drive to the scrum.</td>
+          </tr>
+          <tr>
+            <td>Forwards</td>
+            <td>Flankers &amp; Number 8</td>
+            <td>Hunt the ball, tackle everything, and link with the backs.</td>
+          </tr>
+          <tr>
+            <td>Backs <span class="tag">Speed</span></td>
+            <td>Scrum-half &amp; Fly-half</td>
+            <td>Control the attack, make decisions, and kick for territory.</td>
+          </tr>
+          <tr>
+            <td>Backs</td>
+            <td>Centers</td>
+            <td>Break the defensive line with strong running and defense.</td>
+          </tr>
+          <tr>
+            <td>Backs</td>
+            <td>Wings &amp; Fullback</td>
+            <td>Finish scoring chances and field kicks from the opposition.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Highlights section with embedded video -->
+    <section class="card" id="highlights">
+      <h2>Top Rugby Moments</h2>
+      <div class="highlight-box">
+        <p>
+          Want to see how insane rugby highlights can get? Check out this compilation:
+          <em>“Ice-Cold Rugby Plays You'll Never Get Over”</em>.
+        </p>
+
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/Y7ctoQ5M41g"
+            title="Ice-Cold Rugby Plays You'll Never Get Over"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <p style="font-size:0.85rem; margin-top:8px;">
+          Video courtesy of YouTube – a perfect mix of clutch kicks, insane offloads, and
+          game-winning tackles.
+        </p>
+      </div>
+    </section>
+
+    <!-- Fun facts / personal connection -->
+    <section class="card" id="fun-facts">
+      <h2>Fun Facts &amp; Why Rugby Is Awesome</h2>
+      <ol>
+        <li>Rugby is built on respect – players always call the referee “sir” or “ma’am.”</li>
+        <li>Every position needs a different body type, so there’s literally a role for everyone.</li>
+        <li>Even after brutal tackles, players help each other up. Hard hits, but big respect.</li>
+      </ol>
+
+      <p>
+        Whether you’re into big hits, clever strategy, or crazy athleticism, rugby delivers.
+        Once you understand the basic rules, it’s one of the most addictive sports to watch
+        (and play).
+      </p>
+    </section>
+
+  </div>
+  <div style="display: flex; justify-content: center; width: 100%; margin: 40px 0;">
+  <div class='tableauPlaceholder' id='viz1765255577727' style='position: relative;'>
+    <noscript>
+      <a href='#'>
+        <img alt='Match Report Dashboard'
+             src='https://public.tableau.com/static/images/Ru/RugbyUnionMatchReport/MatchReportDashboard/1_rss.png'
+             style='border: none' />
+      </a>
+    </noscript>
+
+    <object class='tableauViz' style='display:none;'>
+      <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+      <param name='embed_code_version' value='3' />
+      <param name='site_root' value='' />
+      <param name='name' value='RugbyUnionMatchReport/MatchReportDashboard' />
+      <param name='tabs' value='no' />
+      <param name='toolbar' value='yes' />
+      <param name='static_image' value='https://public.tableau.com/static/images/Ru/RugbyUnionMatchReport/MatchReportDashboard/1.png' />
+      <param name='animate_transition' value='yes' />
+      <param name='display_static_image' value='yes' />
+      <param name='display_spinner' value='yes' />
+      <param name='display_overlay' value='yes' />
+      <param name='display_count' value='yes' />
+      <param name='language' value='en-US' />
+    </object>
+  </div>
+</div>
+
+<script type='text/javascript'>
+  var divElement = document.getElementById('viz1765255577727');
+  var vizElement = divElement.getElementsByTagName('object')[0];
+  if (divElement.offsetWidth > 800) {
+      vizElement.style.width='1600px';
+      vizElement.style.height='927px';
+  } else if (divElement.offsetWidth > 500) {
+      vizElement.style.width='1600px';
+      vizElement.style.height='927px';
+  } else {
+      vizElement.style.width='100%';
+      vizElement.style.height='2677px';
+  }
+  var scriptElement = document.createElement('script');
+  scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+  vizElement.parentNode.insertBefore(scriptElement, vizElement);
+</script>
+
+
+  <footer>
+    Rugby image &amp; background: Wikimedia Commons – “Rugby union scrummage close up.”<br>
+    Video: “Ice-Cold Rugby Plays You'll Never Get Over” on YouTube.
+  </footer>
+
+</div>
+</body>
+</html>
